@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'homepage.dart';
-//import 'product.dart';
+import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Store App',
       theme: ThemeData(primarySwatch: Colors.blue, useMaterial3: true),
-      home: Homepage(), // ใช้ HomePage เป็นหน้าแรก
+      home: LoginPage(), // ใช้ LoginPage เป็นหน้าแรก
     );
   }
 }

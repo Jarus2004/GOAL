@@ -18,15 +18,43 @@ class DBHelper {
       version: 1,
       onCreate: (db, version) async {
         await db.execute('''
-          CREATE TABLE products(
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            price INTEGER,
-            quantity INTEGER
-          )
-        ''');
+        CREATE TABLE users(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          username TEXT UNIQUE,
+          password TEXT
+        )
+      ''');
+        await db.execute('''
+        CREATE TABLE products(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          price INTEGER,
+          quantity INTEGER
+        )
+      ''');
       },
     );
+  }
+
+  // เพิ่ม user
+  static Future<int> insertUser(Map<String, dynamic> user) async {
+    final db = await database;
+    return await db.insert('users', user);
+  }
+
+  // ตรวจสอบ user
+  static Future<Map<String, dynamic>?> getUser(
+    String username,
+    String password,
+  ) async {
+    final db = await database;
+    final result = await db.query(
+      'users',
+      where: 'username = ? AND password = ?',
+      whereArgs: [username, password],
+    );
+    if (result.isNotEmpty) return result.first;
+    return null;
   }
 
   //ระบบเพิ่มข้อมูลสินค้า

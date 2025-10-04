@@ -13,7 +13,6 @@ class _HomepageState extends State<Homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ร้านค้า'),
         centerTitle: true,
         backgroundColor: Colors.white,
         actions: [
