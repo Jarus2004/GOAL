@@ -96,6 +96,17 @@ class DBHelper {
       whereArgs: [id],
     );
   }
+
+  static Future<void> clearProducts() async {
+    final db = await database;
+    await db.delete('products'); // ลบข้อมูลทั้งหมดในตาราง
+    developer.log('Cleared all products from the database');
+    await db.delete(
+      'sqlite_sequence',
+      where: 'name = ?',
+      whereArgs: ['products'],
+    );
+  }
 }
 
 void printDbPath() async {
@@ -109,9 +120,4 @@ void deleteDb() async {
   final path = join(dbPath, 'dota.db');
   await deleteDatabase(path);
   developer.log('Deleted database at $path');
-}
-
-void deleteProductTABLE() async {
-  final db = await DBHelper.database;
-  await db.execute('DROP TABLE IF EXISTS products');
 }

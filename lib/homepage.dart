@@ -22,6 +22,7 @@ class _HomepageState extends State<Homepage> {
             icon: Icon(Icons.logout, color: Colors.red),
             alignment: Alignment.topLeft,
             onPressed: () {
+              DBHelper.clearProducts();
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => LoginPage()),
