@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import 'dart:developer' as developer;
 
 class DBHelper {
   static Database? _db;
@@ -12,7 +13,7 @@ class DBHelper {
 
   static Future<Database> _initDB() async {
     final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'shop.db');
+    final path = join(dbPath, 'dota.db');
     return await openDatabase(
       path,
       version: 1,
@@ -95,19 +96,22 @@ class DBHelper {
       whereArgs: [id],
     );
   }
+}
 
-  // ดึงจำนวนสินค้า
-  static Future<int?> getQuantity(int id) async {
-    final db = await database;
-    final result = await db.query(
-      'products',
-      columns: ['quantity'],
-      where: 'id = ?',
-      whereArgs: [id],
-    );
-    if (result.isNotEmpty) {
-      return result.first['quantity'] as int;
-    }
-    return null;
-  }
+void printDbPath() async {
+  final dbPath = await getDatabasesPath();
+  developer.log('Database path: $dbPath');
+  developer.log('Products: ${await DBHelper.getProducts()}');
+}
+
+void deleteDb() async {
+  final dbPath = await getDatabasesPath();
+  final path = join(dbPath, 'dota.db');
+  await deleteDatabase(path);
+  developer.log('Deleted database at $path');
+}
+
+void deleteProductTABLE() async {
+  final db = await DBHelper.database;
+  await db.execute('DROP TABLE IF EXISTS products');
 }

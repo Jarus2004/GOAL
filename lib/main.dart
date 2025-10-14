@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'login.dart';
+import 'data.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  deleteDb();
   runApp(const MyApp());
 }
 
